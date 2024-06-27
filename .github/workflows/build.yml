@@ -24,7 +24,7 @@ jobs:
       - name: Build and Package Triforce Dolphin
         run: |
           cd Source
-          msbuild dolphin-emu.sln /p:Configuration=Debug /p:Platform=x64 /t:Restore,Build
+          msbuild dolphin-emu.sln /p:Configuration=Release /p:Platform=x64 /t:Restore,Build,Package
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
