@@ -1,0 +1,33 @@
+name: Windows Triforce Dolphin Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true 
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet.exe
+        uses: NuGet/setup-nuget@v2
+        with:
+          nuget-version: latest
+
+      - name: Build and Package Dolphin UWP Project
+        run: |
+          cd Source
+          msbuild dolphin-emu.sln /p:Configuration=Release /p:Platform=x64 /t:Restore,Build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Triforce-Dolphin-Build
+          path: Source/bin/Release
